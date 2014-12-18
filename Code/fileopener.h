@@ -8,12 +8,12 @@ class FileOpener
 {
 public:
     FileOpener(int argc, char *argv[]);
-    int openDialog(QApplication *app, QTextEdit *text);
+    int openDialog();
 
 private:
-    QApplication app();
+    QApplication *app;
 
-    QTextEdit text();
+    QTextEdit *text;
 };
 
 #endif // FILEOPENER_H
