@@ -1,7 +1,7 @@
 #include <QtGui>
 #include <fileopener.h>
 
-FileOpener::FileOpener(int argc, char *argv[])
+FileOpener::FileOpener(int &argc, char *argv[])
 {
 app=new QApplication(argc, argv);
 text=new QTextEdit();

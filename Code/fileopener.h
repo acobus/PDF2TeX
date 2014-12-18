@@ -7,7 +7,7 @@
 class FileOpener
 {
 public:
-    FileOpener(int argc, char *argv[]);
+    FileOpener(int &argc, char *argv[]);
     int openDialog();
 
 private:
