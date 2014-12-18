@@ -1,4 +1,4 @@
-QT          =
+QT          = widgets
 
 TARGET      = ApiExample
 TEMPLATE    = app
@@ -15,7 +15,8 @@ QMAKE_CXXFLAGS += -pthread
 SOURCES += \
     main.cpp \
     magicconverter.cpp \
-    tessreader.cpp
+    tessreader.cpp \
+    fileopener.cpp
 LIBS    += -llept -ltesseract -lGraphicsMagick++ -lGraphicsMagick -ljbig -ltiff -ljpeg -lpng12 -lXext -lX11 -llzma -lz -lm -lgomp -lpthread
 
 win32: {
@@ -28,4 +29,5 @@ win32: {
 
 HEADERS += \
     magicconverter.h \
-    tessreader.h
+    tessreader.h \
+    fileopener.h
