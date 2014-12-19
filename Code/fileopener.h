@@ -1,19 +1,14 @@
 #ifndef FILEOPENER_H
 #define FILEOPENER_H
 
-#include <QApplication>
-#include <QTextEdit>
+#include "ui_fileopener.h"
 
-class FileOpener
+class FileOpener : public QWidget, private Ui::FileOpenerDLG
 {
+    Q_OBJECT
 public:
-    FileOpener(int &argc, char *argv[]);
-    int openDialog();
+    FileOpener(QWidget *parent=0);
 
-private:
-    QApplication *app;
-
-    QTextEdit *text;
 };
 
 #endif // FILEOPENER_H

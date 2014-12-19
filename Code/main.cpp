@@ -1,8 +1,8 @@
-#include <magicconverter.h>
-#include <tessreader.h>
-#include <fileopener.h>
+#include "magicconverter.h"
+#include "tessreader.h"
+#include "fileopener.h"
 #include <string>
-#include <iostream>
+#include <QApplication>
 
 using namespace std;
 
@@ -12,8 +12,10 @@ int main(int argc, char *argv[])
     string target="../Documents/Summentest.tif";
     string document="../Documents/Summentest.pdf";
 
-    FileOpener *wind = new FileOpener(argc,argv);
-    wind->openDialog();
+    QApplication app(argc,argv);
+    FileOpener *dialogue = new FileOpener;
+    dialogue->show();
+    app.exec();
 
     MagicConverter magic(*argv,document,target);
 

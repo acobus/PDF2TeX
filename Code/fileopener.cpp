@@ -1,14 +1,9 @@
 #include <QtGui>
-#include <fileopener.h>
+#include "fileopener.h"
 
-FileOpener::FileOpener(int &argc, char *argv[])
+
+FileOpener::FileOpener(QWidget *parent)
 {
-app=new QApplication(argc, argv);
-text=new QTextEdit();
+setupUi(this);
 
-}
-
-int FileOpener::openDialog(){
-    text->show();
-    return app->exec();
 }

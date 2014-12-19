@@ -31,3 +31,12 @@ HEADERS += \
     magicconverter.h \
     tessreader.h \
     fileopener.h
+
+FORMS += \
+    fileopener.ui
+
+# install
+target.path = myqtapp
+sources.files = $$SOURCES $$HEADERS $$RESOURCES $$FORMS *.pro
+sources.path = .
+INSTALLS += target source
