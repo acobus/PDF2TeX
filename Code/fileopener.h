@@ -9,6 +9,12 @@ class FileOpener : public QWidget, private Ui::FileOpenerDLG
 public:
     FileOpener(QWidget *parent=0);
 
+public slots:
+    void getPath();
+    void checkInput();
+
+private slots:
+    void quit();
 };
 
 #endif // FILEOPENER_H
