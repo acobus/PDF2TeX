@@ -3,10 +3,13 @@
 #include <QDesktopWidget>
 #include "fileopener.h"
 
+using namespace std;
 
-FileOpener::FileOpener(QWidget *parent)
+FileOpener::FileOpener(TessReader *pTessi)
 {
 setupUi(this);
+
+tessi=pTessi;
 
 // Position des Fensters zentriert
 QDesktopWidget *desktop = QApplication::desktop();
@@ -41,6 +44,9 @@ connect( pushButton_browse, SIGNAL( clicked() ), this, SLOT( getPath() ) );
 connect( pushButton_convert, SIGNAL( clicked() ), this, SLOT( checkInput() ) );
 connect( pushButton_quit, SIGNAL( clicked() ), this, SLOT( quit() ) );
 
+// Startpfad wird angezeigt
+setText(tessi->getTarget());
+
 }
 
 void FileOpener::getPath()
@@ -53,11 +59,7 @@ void FileOpener::getPath()
         QString::null,
         QString::null);
 
-    text_input->setText( path );
-
-    // Ziel soll .tex Datei sein.
-    QString target =path.replace(".pdf",".tex");
-    text_output->setText(target);
+    setText(path);
 
     // Datei soll im Fenster angezeit werden
     QImage img(path);
@@ -68,5 +70,22 @@ void FileOpener::checkInput(){
 }
 
 void FileOpener::quit(){
+    close();
 }
 
+// Überladene Methode um Textfeld zu füllen
+void FileOpener::setText(string pIn){
+    QString in(pIn.c_str());
+    QString out=in;
+    out.replace(".pdf",".tex");
+    text_input->setText(in);
+    text_output->setText(out);
+}
+
+// Überladene Methode um Textfeld zu füllen
+void FileOpener::setText(QString in){
+    QString out=in;
+    out.replace(".pdf",".tex");
+    text_input->setText(in);
+    text_output->setText(out);
+}

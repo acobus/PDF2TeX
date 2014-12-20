@@ -8,18 +8,19 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    // Zieldateien, vorläufig hier angegeben
-    string target="../Documents/Summentest.tif";
-    string document="../Documents/Summentest.pdf";
+    // Standarddateien
+    string target="../Documents/Summentest.pdf";
+
+    MagicConverter magic(*argv,target);
+
+    TessReader tessi(target);
 
     QApplication app(argc,argv);
-    FileOpener *dialogue = new FileOpener;
+    FileOpener *dialogue = new FileOpener(&tessi);
     dialogue->show();
     app.exec();
 
-    MagicConverter magic(*argv,document,target);
-
-    TessReader tessi(target);
+    tessi.startReading();
 
     return 0;
 }

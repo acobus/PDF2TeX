@@ -1,16 +1,19 @@
 #include "magicconverter.h"
+#include "utility.h"
 #include <Magick++.h>
 
 using namespace Magick;
 
 using namespace std;
+using namespace utility;
 
-MagicConverter::MagicConverter(char *&argv, string &document, string &target)
+MagicConverter::MagicConverter(char *&argv, string &target)
 {
     // PDF einlesen und in Zieldatei speichern
     InitializeMagick(argv);
     Image img;
     img.density(Magick::Geometry(300,300));
-    img.read(document);
-    img.write(target);
+    img.read(target);
+    string pic=utility::replace(target,".pdf",".tif");
+    img.write(pic);
 }
