@@ -20,6 +20,10 @@ int main(int argc, char *argv[])
     dialogue->show();
     app.exec();
 
+    if(tessi.getTarget().empty()){
+        return 0;
+    }
+
     tessi.startReading();
 
     return 0;

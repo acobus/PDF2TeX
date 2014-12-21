@@ -67,9 +67,11 @@ void FileOpener::getPath()
 }
 
 void FileOpener::checkInput(){
+    close();
 }
 
 void FileOpener::quit(){
+    tessi->setTarget("");
     close();
 }
 
