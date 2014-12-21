@@ -23,7 +23,7 @@ TessReader::TessReader(string pTarget)
 void TessReader::startReading(){
     // .tif verarbeiten
     string tessTarget(target);
-    tessTarget=utility::replace(tessTarget,".pdf",".tif");
+    tessTarget=utility::replace(tessTarget,".pdf",".png");
     Pix *image = pixRead(tessTarget.c_str());
     api->SetImage(image);
     outText = api->GetUTF8Text();

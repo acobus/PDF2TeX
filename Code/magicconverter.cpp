@@ -14,6 +14,6 @@ MagicConverter::MagicConverter(char *&argv, string &target)
     Image img;
     img.density(Magick::Geometry(300,300));
     img.read(target);
-    string pic=utility::replace(target,".pdf",".tif");
+    string pic=utility::replace(target,".pdf",".png");
     img.write(pic);
 }

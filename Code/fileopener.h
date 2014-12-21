@@ -3,6 +3,7 @@
 
 #include "ui_fileopener.h"
 #include "tessreader.h"
+#include "magicconverter.h"
 
 using namespace std;
 
@@ -10,8 +11,10 @@ class FileOpener : public QWidget, private Ui::FileOpenerDLG
 {
     Q_OBJECT
 public:
-    FileOpener(TessReader *tessi);
+    FileOpener(TessReader *pTessi, MagicConverter *pMagic);
+    void target2Picture(char *img);
     TessReader *tessi;
+    MagicConverter *magic;
 
 public slots:
     void getPath();

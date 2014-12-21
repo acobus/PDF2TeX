@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     TessReader tessi(target);
 
     QApplication app(argc,argv);
-    FileOpener *dialogue = new FileOpener(&tessi);
+    FileOpener *dialogue = new FileOpener(&tessi,&magic);
     dialogue->show();
     app.exec();
 

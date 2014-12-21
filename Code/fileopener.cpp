@@ -2,14 +2,19 @@
 #include <QFileDialog>
 #include <QDesktopWidget>
 #include "fileopener.h"
+#include "utility.h"
 
 using namespace std;
 
-FileOpener::FileOpener(TessReader *pTessi)
+FileOpener::FileOpener(TessReader *pTessi,MagicConverter *pMagic)
 {
 setupUi(this);
 
+// Pfad des Startbildes
+char *cimg="../Documents/phototest.png";
+
 tessi=pTessi;
+magic=pMagic;
 
 // Position des Fensters zentriert
 QDesktopWidget *desktop = QApplication::desktop();
@@ -46,6 +51,9 @@ connect( pushButton_quit, SIGNAL( clicked() ), this, SLOT( quit() ) );
 
 // Startpfad wird angezeigt
 setText(tessi->getTarget());
+
+// Startbild wird angezeigt
+target2Picture(cimg);
 
 }
 
@@ -90,4 +98,16 @@ void FileOpener::setText(QString in){
     out.replace(".pdf",".tex");
     text_input->setText(in);
     text_output->setText(out);
+}
+
+// Setzt Bild - Wird noch zu klein angezeit...
+void FileOpener::target2Picture(char *img){
+    if (utility::checkFormat(img,".png")){
+    QGraphicsScene *sc =new QGraphicsScene();
+    QPixmap qimg(img);
+    sc->addPixmap(qimg);
+    graphicsView->setScene(sc);
+    QShowEvent *event();
+    graphicsView->fitInView(sc->sceneRect(),Qt::KeepAspectRatio);
+    }
 }

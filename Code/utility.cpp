@@ -12,4 +12,10 @@ string replace(std::string& str, const std::string& from, const std::string& to)
     return nStr;
 }
 
+// Soll Dateiformat überprüfen (vorerst nur durch Benennung -> verbessern)
+bool checkFormat(char *file, char *format){
+    string sfile(file);
+    return sfile.find(format);
+}
+
 }
