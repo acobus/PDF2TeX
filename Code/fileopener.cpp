@@ -11,7 +11,7 @@ FileOpener::FileOpener(TessReader *pTessi,MagicConverter *pMagic)
 setupUi(this);
 
 // Pfad des Startbildes
-char *cimg="../Documents/phototest.png";
+char *cimg="../Documents/Summentest.png";
 
 tessi=pTessi;
 magic=pMagic;
@@ -103,11 +103,19 @@ void FileOpener::setText(QString in){
 // Setzt Bild - Wird noch zu klein angezeit...
 void FileOpener::target2Picture(char *img){
     if (utility::checkFormat(img,".png")){
-    QGraphicsScene *sc =new QGraphicsScene();
+    sc =new QGraphicsScene();
     QPixmap qimg(img);
     sc->addPixmap(qimg);
     graphicsView->setScene(sc);
     QShowEvent *event();
     graphicsView->fitInView(sc->sceneRect(),Qt::KeepAspectRatio);
     }
+}
+
+void FileOpener::resizeEvent(QResizeEvent *) {
+    QRectF bounds = sc->itemsBoundingRect();
+    bounds.setWidth(bounds.width()*0.9);
+    bounds.setHeight(bounds.height()*0.9);
+    graphicsView->fitInView(bounds, Qt::KeepAspectRatio);
+    graphicsView->centerOn(0, 0);
 }

@@ -13,8 +13,10 @@ class FileOpener : public QWidget, private Ui::FileOpenerDLG
 public:
     FileOpener(TessReader *pTessi, MagicConverter *pMagic);
     void target2Picture(char *img);
+    void resizeEvent(QResizeEvent *);
     TessReader *tessi;
     MagicConverter *magic;
+    QGraphicsScene *sc;
 
 public slots:
     void getPath();

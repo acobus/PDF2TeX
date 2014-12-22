@@ -89,9 +89,9 @@ p, li { white-space: pre-wrap; }
   <widget class="QGraphicsView" name="graphicsView">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>31</y>
-     <width>331</width>
+     <x>270</x>
+     <y>30</y>
+     <width>305</width>
      <height>371</height>
     </rect>
    </property>
