@@ -11,7 +11,7 @@ FileOpener::FileOpener(TessReader *pTessi,MagicConverter *pMagic)
 setupUi(this);
 
 // Pfad des Startbildes
-char *cimg="../Documents/Summentest.png";
+char *cimg="../Documents/Logo.png";
 
 tessi=pTessi;
 magic=pMagic;
