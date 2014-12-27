@@ -19,7 +19,7 @@
      <x>30</x>
      <y>100</y>
      <width>201</width>
-     <height>31</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="html">
@@ -36,7 +36,7 @@ p, li { white-space: pre-wrap; }
      <x>30</x>
      <y>210</y>
      <width>201</width>
-     <height>31</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="html">

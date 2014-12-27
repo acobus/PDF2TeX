@@ -1,5 +1,6 @@
 #include "tessreader.h"
 #include "utility.h"
+#include "filemanager.h"
 #include <tesseract/baseapi.h>
 #include <leptonica/allheaders.h>
 
@@ -7,9 +8,9 @@
 
 using namespace std;
 
-TessReader::TessReader(string pTarget)
+TessReader::TessReader(FileManager *pFman)
 {
-    setTarget(pTarget);
+    fman=pFman;
 
     api = new tesseract::TessBaseAPI();
     // Sprachoptionen variieren?
@@ -21,8 +22,8 @@ TessReader::TessReader(string pTarget)
 }
 
 void TessReader::startReading(){
-    // .tif verarbeiten
-    string tessTarget(target);
+    // .png verarbeiten
+    string tessTarget=fman->getTarget();
     tessTarget=utility::replace(tessTarget,".pdf",".png");
     Pix *image = pixRead(tessTarget.c_str());
     api->SetImage(image);
@@ -35,12 +36,4 @@ void TessReader::startReading(){
     pixDestroy(&image);
 }
 
-// Setter für Zieldatei
-void TessReader::setTarget(string pTarget){
-    target=pTarget.c_str();
-}
 
-// Getter für Zieldatei
-string TessReader::getTarget(){
-    return target;
-}

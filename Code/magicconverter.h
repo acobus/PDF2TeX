@@ -1,6 +1,8 @@
 #ifndef MAGICCONVERTER_H
 #define MAGICCONVERTER_H
 
+#include "filemanager.h"
+
 #include <string>
 
 using namespace std;
@@ -8,8 +10,12 @@ using namespace std;
 class MagicConverter
 {
 public:
-    MagicConverter(char *&argv, string &target);
-    string replace(std::string& str, const std::string& from, const std::string& to);
+    MagicConverter(FileManager *pFman);
+
+    void pdf2png();
+
+private:
+    FileManager *fman;
 };
 
 #endif // MAGICCONVERTER_H

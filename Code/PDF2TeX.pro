@@ -17,7 +17,8 @@ SOURCES += \
     magicconverter.cpp \
     tessreader.cpp \
     fileopener.cpp \
-    utility.cpp
+    utility.cpp \
+    filemanager.cpp
 LIBS    += -llept -ltesseract -lGraphicsMagick++ -lGraphicsMagick -ljbig -ltiff -ljpeg -lpng12 -lXext -lX11 -llzma -lz -lm -lgomp -lpthread
 
 win32: {
@@ -32,7 +33,8 @@ HEADERS += \
     magicconverter.h \
     tessreader.h \
     fileopener.h \
-    utility.h
+    utility.h \
+    filemanager.h
 
 FORMS += \
     fileopener.ui

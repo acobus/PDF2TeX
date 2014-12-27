@@ -4,6 +4,7 @@
 #include "ui_fileopener.h"
 #include "tessreader.h"
 #include "magicconverter.h"
+#include "filemanager.h"
 
 using namespace std;
 
@@ -11,11 +12,14 @@ class FileOpener : public QWidget, private Ui::FileOpenerDLG
 {
     Q_OBJECT
 public:
-    FileOpener(TessReader *pTessi, MagicConverter *pMagic);
+    FileOpener(TessReader *pTessi, MagicConverter *pMagic, FileManager *pFman);
     void target2Picture(char *img);
     void resizeEvent(QResizeEvent *);
+
+private:
     TessReader *tessi;
     MagicConverter *magic;
+    FileManager *fman;
     QGraphicsScene *sc;
 
 public slots:

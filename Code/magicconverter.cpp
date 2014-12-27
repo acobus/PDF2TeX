@@ -7,10 +7,15 @@ using namespace Magick;
 using namespace std;
 using namespace utility;
 
-MagicConverter::MagicConverter(char *&argv, string &target)
+MagicConverter::MagicConverter(FileManager *pFman)
 {
+    fman=pFman;
+}
+
+void MagicConverter::pdf2png(){
+    string target = fman->getTarget();
     // PDF einlesen und in Zieldatei speichern
-    InitializeMagick(argv);
+    InitializeMagick(*fman->getArgv());
     Image img;
     img.density(Magick::Geometry(300,300));
     img.read(target);

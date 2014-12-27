@@ -1,28 +1,40 @@
 #include "magicconverter.h"
 #include "tessreader.h"
 #include "fileopener.h"
+#include "utility.h"
+#include "filemanager.h"
+
 #include <string>
 #include <QApplication>
+
+#include <iostream>
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-    // Standarddateien
-    string target="../Documents/Summentest.pdf";
+    FileManager *fman=new FileManager;
 
-    MagicConverter magic(*argv,target);
+    // Automatisch bearbeitete Datei
+    fman->setTarget("../Documents/Summentest.pdf");
 
-    TessReader tessi(target);
+    fman->setArgc(argc);
+    fman->setArgv(argv);
+
+    MagicConverter magic(fman);
+
+    TessReader tessi(fman);
 
     QApplication app(argc,argv);
-    FileOpener *dialogue = new FileOpener(&tessi,&magic);
+    FileOpener *dialogue = new FileOpener(&tessi,&magic,fman);
     dialogue->show();
     app.exec();
 
-    if(tessi.getTarget().empty()){
+    if(fman->getTarget().empty()){
         return 0;
     }
+
+    magic.pdf2png();
 
     tessi.startReading();
 

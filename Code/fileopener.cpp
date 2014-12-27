@@ -3,10 +3,13 @@
 #include <QDesktopWidget>
 #include "fileopener.h"
 #include "utility.h"
+#include "filemanager.h"
+
+#include <iostream>
 
 using namespace std;
 
-FileOpener::FileOpener(TessReader *pTessi,MagicConverter *pMagic)
+FileOpener::FileOpener(TessReader *pTessi, MagicConverter *pMagic, FileManager *pFman)
 {
 setupUi(this);
 
@@ -15,6 +18,7 @@ char *cimg="../Documents/Logo.png";
 
 tessi=pTessi;
 magic=pMagic;
+fman=pFman;
 
 // Position des Fensters zentriert
 QDesktopWidget *desktop = QApplication::desktop();
@@ -49,8 +53,9 @@ connect( pushButton_browse, SIGNAL( clicked() ), this, SLOT( getPath() ) );
 connect( pushButton_convert, SIGNAL( clicked() ), this, SLOT( checkInput() ) );
 connect( pushButton_quit, SIGNAL( clicked() ), this, SLOT( quit() ) );
 
-// Startpfad wird angezeigt
-setText(tessi->getTarget());
+// Starttext
+text_input->setText("browse pdf...");
+text_output->setText("browse tex...");
 
 // Startbild wird angezeigt
 target2Picture(cimg);
@@ -70,8 +75,10 @@ void FileOpener::getPath()
     setText(path);
 
     // Datei soll im Fenster angezeit werden
-    QImage img(path);
-    //view_document->fitInView(img);
+    // Dazu umwandlung der des QString in char*
+    char *c_path=utility::QString2Char_p(path);
+    target2Picture(c_path);
+
 }
 
 void FileOpener::checkInput(){
@@ -79,7 +86,7 @@ void FileOpener::checkInput(){
 }
 
 void FileOpener::quit(){
-    tessi->setTarget("");
+    fman->setTarget("");
     close();
 }
 
@@ -100,7 +107,7 @@ void FileOpener::setText(QString in){
     text_output->setText(out);
 }
 
-// Setzt Bild - Wird noch zu klein angezeit...
+// Setzt Bild in GUI-Anzeige
 void FileOpener::target2Picture(char *img){
     if (utility::checkFormat(img,".png")){
     sc =new QGraphicsScene();
@@ -112,6 +119,7 @@ void FileOpener::target2Picture(char *img){
     }
 }
 
+// Hilfsfunktion um Bild auf richtige Größe zu bekommen
 void FileOpener::resizeEvent(QResizeEvent *) {
     QRectF bounds = sc->itemsBoundingRect();
     bounds.setWidth(bounds.width()*0.9);

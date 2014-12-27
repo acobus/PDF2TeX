@@ -18,4 +18,10 @@ bool checkFormat(char *file, char *format){
     return sfile.find(format);
 }
 
+// Wandelt einen QString in ein char* um
+char* QString2Char_p(QString str){
+    QByteArray ba=str.toLocal8Bit();
+    return ba.data();
+}
+
 }
