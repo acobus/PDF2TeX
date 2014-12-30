@@ -10,9 +10,9 @@ namespace utility {
 
 using namespace std;
 
-    string replace(std::string& str, const std::string& from, const std::string& to);
+    string replace(std::string& strz, const std::string& from, const std::string& to);
 
-    bool checkFormat(char *file, char *format);
+    bool checkFormat(const char *file, const char *format);
 
     char* QString2Char_p(QString str);
 

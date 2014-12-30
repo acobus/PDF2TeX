@@ -12,7 +12,7 @@ class MagicConverter
 public:
     MagicConverter(FileManager *pFman);
 
-    void pdf2png();
+    void pdf2png(int dense);
 
 private:
     FileManager *fman;

@@ -1,5 +1,7 @@
 #include "utility.h"
 
+#include <iostream>
+
 namespace utility{
 
 // Ersetzt in string "str" einen teilstring "from" durch einen anderen "to"
@@ -13,9 +15,13 @@ string replace(std::string& str, const std::string& from, const std::string& to)
 }
 
 // Soll Dateiformat überprüfen (vorerst nur durch Benennung -> verbessern)
-bool checkFormat(char *file, char *format){
+bool checkFormat(const char *file, const char *format){
     string sfile(file);
-    return sfile.find(format);
+    size_t ret=sfile.find(format);
+    if (ret==string::npos){
+        ret=0;
+    }
+    return ret;
 }
 
 // Wandelt einen QString in ein char* um

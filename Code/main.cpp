@@ -16,7 +16,11 @@ int main(int argc, char *argv[])
     FileManager *fman=new FileManager;
 
     // Automatisch bearbeitete Datei
-    fman->setTarget("../Documents/Summentest.pdf");
+    fman->setTarget("");
+
+    // LogoAnzeige
+    char logo[]="../Documents/Logo.png";
+    fman->setLogo(logo);
 
     fman->setArgc(argc);
     fman->setArgv(argv);
@@ -34,7 +38,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    magic.pdf2png();
+    magic.pdf2png(300);
 
     tessi.startReading();
 

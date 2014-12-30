@@ -29,3 +29,11 @@ void FileManager::setArgv(char **pArgv){
 char **FileManager::getArgv(){
     return argv;
 }
+
+void FileManager::setLogo(char * pLogo){
+    logo=pLogo;
+}
+
+char *FileManager::getLogo(){
+    return logo;
+}

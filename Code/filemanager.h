@@ -19,10 +19,14 @@ public:
     void setArgv(char **pArgv);
     char **getArgv();
 
+    void setLogo(char * pLogo);
+    char * getLogo();
+
 private:
     int argc;
     char **argv;
     string target;
+    char *logo;
 };
 
 #endif // FILEMANAGER_H

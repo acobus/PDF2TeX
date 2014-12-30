@@ -13,9 +13,6 @@ FileOpener::FileOpener(TessReader *pTessi, MagicConverter *pMagic, FileManager *
 {
 setupUi(this);
 
-// Pfad des Startbildes
-char *cimg="../Documents/Logo.png";
-
 tessi=pTessi;
 magic=pMagic;
 fman=pFman;
@@ -54,11 +51,10 @@ connect( pushButton_convert, SIGNAL( clicked() ), this, SLOT( checkInput() ) );
 connect( pushButton_quit, SIGNAL( clicked() ), this, SLOT( quit() ) );
 
 // Starttext
-text_input->setText("browse pdf...");
-text_output->setText("browse tex...");
+setText(fman->getTarget());
 
 // Startbild wird angezeigt
-target2Picture(cimg);
+target2Picture(fman->getLogo());
 
 }
 
@@ -77,6 +73,8 @@ void FileOpener::getPath()
     // Datei soll im Fenster angezeit werden
     // Dazu umwandlung der des QString in char*
     char *c_path=utility::QString2Char_p(path);
+    string s_path(c_path);
+    fman->setTarget(s_path);
     target2Picture(c_path);
 
 }
@@ -93,14 +91,17 @@ void FileOpener::quit(){
 // Überladene Methode um Textfeld zu füllen
 void FileOpener::setText(string pIn){
     QString in(pIn.c_str());
-    QString out=in;
-    out.replace(".pdf",".tex");
-    text_input->setText(in);
-    text_output->setText(out);
+    setText(in);
 }
 
 // Überladene Methode um Textfeld zu füllen
 void FileOpener::setText(QString in){
+    // Anzeige falls keine Zieldatei
+    if(in.isEmpty()){
+        text_input->setText("browse pdf...");
+        text_output->setText("browse tex...");
+        return;
+    }
     QString out=in;
     out.replace(".pdf",".tex");
     text_input->setText(in);
@@ -108,15 +109,28 @@ void FileOpener::setText(QString in){
 }
 
 // Setzt Bild in GUI-Anzeige
-void FileOpener::target2Picture(char *img){
-    if (utility::checkFormat(img,".png")){
+void FileOpener::target2Picture(const char *imag){
+    const char * n_img;
+    // StandardBild, wenn nichts ausgewählt
+    if(imag==0){
+        n_img="../Documents/Logo.png";
+    }
+    char format[]=".pdf";
+    if (utility::checkFormat(imag,format)){
+        //Zieldatei als png umwandeln
+        string temp(imag);
+        magic->pdf2png(100);
+        temp=utility::replace(temp,".pdf",".png");
+        n_img=temp.c_str();
+    }else{
+        n_img=imag;
+    }
+    QPixmap qimg(n_img);
     sc =new QGraphicsScene();
-    QPixmap qimg(img);
     sc->addPixmap(qimg);
     graphicsView->setScene(sc);
     QShowEvent *event();
     graphicsView->fitInView(sc->sceneRect(),Qt::KeepAspectRatio);
-    }
 }
 
 // Hilfsfunktion um Bild auf richtige Größe zu bekommen
