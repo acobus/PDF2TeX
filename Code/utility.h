@@ -16,5 +16,9 @@ using namespace std;
 
     char* QString2Char_p(QString str);
 
+    string convertInt(int number);
+
 }
+
+
 #endif // UTILITY_H

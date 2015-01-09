@@ -37,3 +37,11 @@ void FileManager::setLogo(char * pLogo){
 char *FileManager::getLogo(){
     return logo;
 }
+
+void FileManager::setNumb(int numb){
+    numberFiles=numb;
+}
+
+int FileManager::getNumb(){
+    return numberFiles;
+}

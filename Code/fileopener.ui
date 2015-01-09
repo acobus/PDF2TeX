@@ -96,6 +96,32 @@ p, li { white-space: pre-wrap; }
     </rect>
    </property>
   </widget>
+  <widget class="QLineEdit" name="start_page">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>300</y>
+     <width>81</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Page start</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="end_page">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>300</y>
+     <width>81</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Page end</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

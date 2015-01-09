@@ -68,14 +68,16 @@ void FileOpener::getPath()
         QString::null,
         QString::null);
 
-    setText(path);
-
     // Datei soll im Fenster angezeit werden
     // Dazu umwandlung der des QString in char*
     char *c_path=utility::QString2Char_p(path);
     string s_path(c_path);
     fman->setTarget(s_path);
     target2Picture(c_path);
+
+    // Pfad und Seitenzahlen in GUI anzeigen
+    setText(path);
+    setPageNumbers();
 
 }
 
@@ -108,6 +110,21 @@ void FileOpener::setText(QString in){
     text_output->setText(out);
 }
 
+// Seitenzahlen werden in GUI angezeigt
+void FileOpener::setPageNumbers(){
+    QString start;
+    QString end;
+    if(fman->getNumb()==0){
+        start="Page start";
+        end="Page end";
+    }else{
+        start=utility::convertInt(1).c_str();
+        end=utility::convertInt(fman->getNumb()).c_str();
+    }
+    start_page->setText(start);
+    end_page->setText(end);
+}
+
 // Setzt Bild in GUI-Anzeige
 void FileOpener::target2Picture(const char *imag){
     const char * n_img;
@@ -118,10 +135,8 @@ void FileOpener::target2Picture(const char *imag){
     char format[]=".pdf";
     if (utility::checkFormat(imag,format)){
         //Zieldatei als png umwandeln
-        string temp(imag);
-        magic->pdf2png(100);
-        temp=utility::replace(temp,".pdf",".png");
-        n_img=temp.c_str();
+        magic->pdf2png(10,true);
+        n_img="../temp/mconv.png";
     }else{
         n_img=imag;
     }

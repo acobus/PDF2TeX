@@ -1,6 +1,7 @@
 #include "utility.h"
 
 #include <iostream>
+#include <sstream>
 
 namespace utility{
 
@@ -29,5 +30,14 @@ char* QString2Char_p(QString str){
     QByteArray ba=str.toLocal8Bit();
     return ba.data();
 }
+
+// Umwandlung int2str
+string convertInt(int number)
+{
+   stringstream s;// string Stream erzeugen
+   s<< number;// Zahl hinzufügen
+   return s.str();// string zurückgeben
+}
+
 
 }

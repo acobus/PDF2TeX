@@ -22,11 +22,15 @@ public:
     void setLogo(char * pLogo);
     char * getLogo();
 
+    void setNumb(int numb);
+    int getNumb();
+
 private:
     int argc;
     char **argv;
     string target;
     char *logo;
+    int numberFiles;
 };
 
 #endif // FILEMANAGER_H

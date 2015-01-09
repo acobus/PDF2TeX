@@ -23,8 +23,7 @@ TessReader::TessReader(FileManager *pFman)
 
 void TessReader::startReading(){
     // .png verarbeiten
-    string tessTarget=fman->getTarget();
-    tessTarget=utility::replace(tessTarget,".pdf",".png");
+    string tessTarget="../temp/pg0.png";
     Pix *image = pixRead(tessTarget.c_str());
     api->SetImage(image);
     outText = api->GetUTF8Text();
