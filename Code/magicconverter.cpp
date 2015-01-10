@@ -20,8 +20,6 @@ void MagicConverter::pdf2png(int dense,bool defineNumbPages){
     string target = fman->getTarget();
     // PDF einlesen und in Zieldatei speichern
     InitializeMagick(*fman->getArgv());
-    //std::list<Image> images;
-    //readImages(&images, target);
     Image img;
     img.density(Magick::Geometry(dense,dense));
     int page;
@@ -33,15 +31,13 @@ void MagicConverter::pdf2png(int dense,bool defineNumbPages){
         page_s="../temp/pg" + utility::convertInt(page) + ".png";
         try{
             img.read(target + "[" + utility::convertInt(page) + "]");
-            img.write(page_s);
-        }catch(...){
-        }
-        // Prüfen ob letzte Datei erzeugt wurde, sonst abbrechen
-        std::ifstream file_exists(page_s.c_str());
-        if(!file_exists){
-            if(defineNumbPages){
-                fman->setNumb(page);
+            // Nur die erste konvertieren
+            if(page==0 && defineNumbPages){
+                img.write(page_s);
             }
+        // Letzte Seite gelesen
+        }catch(Magick::ErrorDelegate error){
+            fman->setNumb(page);
             return;
         }
     }

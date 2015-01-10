@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <cstdio>
 
 namespace utility{
 
@@ -39,5 +40,15 @@ string convertInt(int number)
    return s.str();// string zurückgeben
 }
 
+// Leert den temp-Ordner
+void emptyTemp(){
+    string file;
+    for(int i=0; true; i++){
+        file="../temp/pg"+convertInt(i)+".png";
+        if(remove(file.c_str())!=0){
+            return;
+        }
+    }
+}
 
 }

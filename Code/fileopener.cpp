@@ -134,9 +134,9 @@ void FileOpener::target2Picture(const char *imag){
     }
     char format[]=".pdf";
     if (utility::checkFormat(imag,format)){
-        //Zieldatei als png umwandeln
-        magic->pdf2png(10,true);
-        n_img="../temp/mconv.png";
+        //Zieldatei als bild convertieren
+        magic->pdf2png(100,true);
+        n_img="../temp/pg0.png";
     }else{
         n_img=imag;
     }

@@ -9,16 +9,13 @@
 #include <string>
 #include <stdio.h>
 #include <iostream>
-#include <sys/stat.h>
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-    // Funktioniert nur unter Linux
-    // Allgemeinere Variante?!
-    system("rm -r ../temp");
-    mkdir("../temp",0777);
+    // temp-Verzeichnis leeren
+    utility::emptyTemp();
 
     FileManager *fman=new FileManager;
 
@@ -44,12 +41,15 @@ int main(int argc, char *argv[])
     dialogue->show();
     app.exec();
 
+    // Datei ausgewählt?
     if(fman->getTarget().empty()){
         return 0;
     }
 
+    // Konvertierung in passendes Format
     magic.pdf2png(300,false);
 
+    // OCR-interpretierung
     tessi.startReading();
 
     return 0;

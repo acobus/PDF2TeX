@@ -18,6 +18,8 @@ using namespace std;
 
     string convertInt(int number);
 
+    void emptyTemp();
+
 }
 
 
