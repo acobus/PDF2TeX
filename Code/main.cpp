@@ -1,3 +1,4 @@
+#include "texparser.h"
 #include "magicconverter.h"
 #include "tessreader.h"
 #include "fileopener.h"
@@ -50,7 +51,11 @@ int main(int argc, char *argv[])
     magic.pdf2png(300,false);
 
     // OCR-interpretierung
-    tessi.startReading();
+    const char *pdfText=tessi.startReading();
+
+    // .tex erzeugen
+    TexParser parser;
+    parser.parseText(pdfText);
 
     return 0;
 }

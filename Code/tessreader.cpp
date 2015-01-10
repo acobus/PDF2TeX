@@ -21,7 +21,7 @@ TessReader::TessReader(FileManager *pFman)
 
 }
 
-void TessReader::startReading(){
+const char* TessReader::startReading(){
     // .png verarbeiten
     string tessTarget="../temp/pg0.png";
     Pix *image = pixRead(tessTarget.c_str());
@@ -33,6 +33,8 @@ void TessReader::startReading(){
     api->End();
     delete [] outText;
     pixDestroy(&image);
+
+    return outText;
 }
 
 

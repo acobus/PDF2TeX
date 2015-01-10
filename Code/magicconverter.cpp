@@ -32,7 +32,7 @@ void MagicConverter::pdf2png(int dense,bool defineNumbPages){
         try{
             img.read(target + "[" + utility::convertInt(page) + "]");
             // Nur die erste konvertieren
-            if(page==0 && defineNumbPages){
+            if((page==0 && defineNumbPages)||!defineNumbPages){
                 img.write(page_s);
             }
         // Letzte Seite gelesen

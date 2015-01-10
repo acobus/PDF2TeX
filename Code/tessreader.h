@@ -13,7 +13,7 @@ class TessReader
 {
 public:
     TessReader(FileManager *pFman);
-    void startReading();
+    const char *startReading();
     void setTarget(string pTarget);
     string getTarget();
 

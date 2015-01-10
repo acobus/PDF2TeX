@@ -18,7 +18,8 @@ SOURCES += \
     tessreader.cpp \
     fileopener.cpp \
     utility.cpp \
-    filemanager.cpp
+    filemanager.cpp \
+    texparser.cpp
 LIBS    += -llept -ltesseract -lGraphicsMagick++ -lGraphicsMagick -ljbig -ltiff -ljpeg -lpng12 -lXext -lX11 -llzma -lz -lm -lgomp -lpthread
 
 win32: {
@@ -34,7 +35,8 @@ HEADERS += \
     tessreader.h \
     fileopener.h \
     utility.h \
-    filemanager.h
+    filemanager.h \
+    texparser.h
 
 FORMS += \
     fileopener.ui
