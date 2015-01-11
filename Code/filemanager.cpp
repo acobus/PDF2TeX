@@ -2,6 +2,18 @@
 
 using namespace std;
 
+/*
+ * Diese Klasse vereinigt Attribute die Klassen-
+ * übergreifend per getter-/setter-Methoden
+ * zur Verfügung stehen sollen.
+ * Dies sind
+ *
+ *  target          PDF, die konvertiert wird
+ *  argc,argv       Argumente der main()
+ *  logo            Bild, das zu beginn gezeigt wird
+ *  numberFiles     Anzahl der Seiten der PDF
+ *
+ */
 FileManager::FileManager()
 {
 }

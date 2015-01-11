@@ -9,6 +9,7 @@
 
 #include <string>
 #include <stdio.h>
+#include <sstream>
 #include <iostream>
 
 using namespace std;
@@ -51,11 +52,18 @@ int main(int argc, char *argv[])
     magic.pdf2png(300,false);
 
     // OCR-interpretierung
-    const char *pdfText=tessi.startReading();
+    stringstream input;
+    string tessTarget;
+    //fman->setNumb(1);
+    for(int page=0;page<fman->getNumb();page++){
+        tessTarget="../temp/pg" + utility::convertInt(page) + ".png";
+        input << tessi.startReading(tessTarget);
+    }
+    tessi.endReading();
 
     // .tex erzeugen
     TexParser parser;
-    parser.parseText(pdfText);
+    parser.parseText(input.str());
 
     return 0;
 }

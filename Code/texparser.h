@@ -9,7 +9,7 @@ class TexParser
 {
 public:
     TexParser();
-    void parseText(const char* input);
+    void parseText(string input);
 
 private:
     void makeBeginning();

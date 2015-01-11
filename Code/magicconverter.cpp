@@ -16,6 +16,15 @@ MagicConverter::MagicConverter(FileManager *pFman)
     fman=pFman;
 }
 
+/*
+ * Startet Konvertierung in .png Format.
+ * Es wird das Bild bearbeitet, welches in FileManager als
+ * target hinterlegt ist.
+ * Input:
+ *  dense               Kompaktheit des Bildes
+ *  defineNumbPages     Gibt an ob Seitenzahl neu berechnet
+ *                      oder der bekannte Wert genommen wird
+ */
 void MagicConverter::pdf2png(int dense,bool defineNumbPages){
     string target = fman->getTarget();
     // PDF einlesen und in Zieldatei speichern
