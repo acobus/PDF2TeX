@@ -38,22 +38,22 @@ public:
         FileOpenerDLG->resize(607, 523);
         text_input = new QTextEdit(FileOpenerDLG);
         text_input->setObjectName(QStringLiteral("text_input"));
-        text_input->setGeometry(QRect(30, 100, 201, 31));
+        text_input->setGeometry(QRect(30, 100, 201, 41));
         text_output = new QTextEdit(FileOpenerDLG);
         text_output->setObjectName(QStringLiteral("text_output"));
-        text_output->setGeometry(QRect(30, 210, 201, 31));
+        text_output->setGeometry(QRect(30, 210, 201, 41));
         pushButton_browse = new QPushButton(FileOpenerDLG);
         pushButton_browse->setObjectName(QStringLiteral("pushButton_browse"));
         pushButton_browse->setGeometry(QRect(130, 150, 98, 27));
         pushButton_convert = new QPushButton(FileOpenerDLG);
         pushButton_convert->setObjectName(QStringLiteral("pushButton_convert"));
-        pushButton_convert->setGeometry(QRect(250, 430, 98, 27));
+        pushButton_convert->setGeometry(QRect(150, 470, 98, 27));
         pushButton_quit = new QPushButton(FileOpenerDLG);
         pushButton_quit->setObjectName(QStringLiteral("pushButton_quit"));
-        pushButton_quit->setGeometry(QRect(30, 430, 99, 27));
+        pushButton_quit->setGeometry(QRect(30, 470, 99, 27));
         graphicsView = new QGraphicsView(FileOpenerDLG);
         graphicsView->setObjectName(QStringLiteral("graphicsView"));
-        graphicsView->setGeometry(QRect(260, 31, 331, 371));
+        graphicsView->setGeometry(QRect(270, 60, 305, 371));
 
         retranslateUi(FileOpenerDLG);
 

@@ -14,7 +14,7 @@ CC            = gcc
 CXX           = g++
 DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -m64 -pipe -O2 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
-CXXFLAGS      = -m64 -pipe -pthread -O2 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
+CXXFLAGS      = -m64 -pipe -pthread -std=c++11 -O2 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
 INCPATH       = -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I../Code -I/usr/local/include/GraphicsMagick -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -Itemp -Itemp -I.
 LINK          = g++
 LFLAGS        = -m64 -Wl,-O1
@@ -49,12 +49,14 @@ SOURCES       = ../Code/main.cpp \
 		../Code/magicconverter.cpp \
 		../Code/tessreader.cpp \
 		../Code/fileopener.cpp \
-		../Code/utility.cpp temp/moc_fileopener.cpp
+		../Code/utility.cpp \
+		../Code/filemanager.cpp temp/moc_fileopener.cpp
 OBJECTS       = temp/main.o \
 		temp/magicconverter.o \
 		temp/tessreader.o \
 		temp/fileopener.o \
 		temp/utility.o \
+		temp/filemanager.o \
 		temp/moc_fileopener.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/shell-unix.conf \
@@ -280,7 +282,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d temp/ApiExample1.0.0 || mkdir -p temp/ApiExample1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) temp/ApiExample1.0.0/ && $(COPY_FILE) --parents ../Code/magicconverter.h ../Code/tessreader.h ../Code/fileopener.h ../Code/utility.h temp/ApiExample1.0.0/ && $(COPY_FILE) --parents ../Code/main.cpp ../Code/magicconverter.cpp ../Code/tessreader.cpp ../Code/fileopener.cpp ../Code/utility.cpp temp/ApiExample1.0.0/ && $(COPY_FILE) --parents ../Code/fileopener.ui temp/ApiExample1.0.0/ && (cd `dirname temp/ApiExample1.0.0` && $(TAR) ApiExample1.0.0.tar ApiExample1.0.0 && $(COMPRESS) ApiExample1.0.0.tar) && $(MOVE) `dirname temp/ApiExample1.0.0`/ApiExample1.0.0.tar.gz . && $(DEL_FILE) -r temp/ApiExample1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) temp/ApiExample1.0.0/ && $(COPY_FILE) --parents ../Code/magicconverter.h ../Code/tessreader.h ../Code/fileopener.h ../Code/utility.h ../Code/filemanager.h temp/ApiExample1.0.0/ && $(COPY_FILE) --parents ../Code/main.cpp ../Code/magicconverter.cpp ../Code/tessreader.cpp ../Code/fileopener.cpp ../Code/utility.cpp ../Code/filemanager.cpp temp/ApiExample1.0.0/ && $(COPY_FILE) --parents ../Code/fileopener.ui temp/ApiExample1.0.0/ && (cd `dirname temp/ApiExample1.0.0` && $(TAR) ApiExample1.0.0.tar ApiExample1.0.0 && $(COMPRESS) ApiExample1.0.0.tar) && $(MOVE) `dirname temp/ApiExample1.0.0`/ApiExample1.0.0.tar.gz . && $(DEL_FILE) -r temp/ApiExample1.0.0
 
 
 clean:compiler_clean 
@@ -463,6 +465,8 @@ temp/moc_fileopener.cpp: temp/ui_fileopener.h \
 		/usr/include/qt5/QtGui/qtextformat.h \
 		/usr/include/qt5/QtWidgets/QWidget \
 		../Code/tessreader.h \
+		../Code/filemanager.h \
+		../Code/magicconverter.h \
 		../Code/fileopener.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Code/fileopener.h -o temp/moc_fileopener.cpp
 
@@ -485,6 +489,7 @@ compiler_clean: compiler_moc_header_clean compiler_uic_clean
 ####### Compile
 
 temp/main.o: ../Code/main.cpp ../Code/magicconverter.h \
+		../Code/filemanager.h \
 		../Code/tessreader.h \
 		../Code/fileopener.h \
 		temp/ui_fileopener.h \
@@ -642,10 +647,60 @@ temp/main.o: ../Code/main.cpp ../Code/magicconverter.h \
 		/usr/include/qt5/QtGui/qtextdocument.h \
 		/usr/include/qt5/QtGui/qtextcursor.h \
 		/usr/include/qt5/QtGui/qtextformat.h \
-		/usr/include/qt5/QtWidgets/QWidget
+		/usr/include/qt5/QtWidgets/QWidget \
+		../Code/utility.h \
+		/usr/include/qt5/QtCore/QString \
+		/usr/include/qt5/QtCore/QByteArray
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o temp/main.o ../Code/main.cpp
 
 temp/magicconverter.o: ../Code/magicconverter.cpp ../Code/magicconverter.h \
+		../Code/filemanager.h \
+		../Code/utility.h \
+		/usr/include/qt5/QtCore/QString \
+		/usr/include/qt5/QtCore/qstring.h \
+		/usr/include/qt5/QtCore/qchar.h \
+		/usr/include/qt5/QtCore/qglobal.h \
+		/usr/include/qt5/QtCore/qconfig.h \
+		/usr/include/qt5/QtCore/qfeatures.h \
+		/usr/include/qt5/QtCore/qsystemdetection.h \
+		/usr/include/qt5/QtCore/qprocessordetection.h \
+		/usr/include/qt5/QtCore/qcompilerdetection.h \
+		/usr/include/qt5/QtCore/qglobalstatic.h \
+		/usr/include/qt5/QtCore/qatomic.h \
+		/usr/include/qt5/QtCore/qbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_bootstrap.h \
+		/usr/include/qt5/QtCore/qgenericatomic.h \
+		/usr/include/qt5/QtCore/qatomic_msvc.h \
+		/usr/include/qt5/QtCore/qatomic_integrity.h \
+		/usr/include/qt5/QtCore/qoldbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_vxworks.h \
+		/usr/include/qt5/QtCore/qatomic_power.h \
+		/usr/include/qt5/QtCore/qatomic_alpha.h \
+		/usr/include/qt5/QtCore/qatomic_armv7.h \
+		/usr/include/qt5/QtCore/qatomic_armv6.h \
+		/usr/include/qt5/QtCore/qatomic_armv5.h \
+		/usr/include/qt5/QtCore/qatomic_bfin.h \
+		/usr/include/qt5/QtCore/qatomic_ia64.h \
+		/usr/include/qt5/QtCore/qatomic_mips.h \
+		/usr/include/qt5/QtCore/qatomic_s390.h \
+		/usr/include/qt5/QtCore/qatomic_sh4a.h \
+		/usr/include/qt5/QtCore/qatomic_sparc.h \
+		/usr/include/qt5/QtCore/qatomic_gcc.h \
+		/usr/include/qt5/QtCore/qatomic_x86.h \
+		/usr/include/qt5/QtCore/qatomic_cxx11.h \
+		/usr/include/qt5/QtCore/qatomic_unix.h \
+		/usr/include/qt5/QtCore/qmutex.h \
+		/usr/include/qt5/QtCore/qlogging.h \
+		/usr/include/qt5/QtCore/qflags.h \
+		/usr/include/qt5/QtCore/qtypeinfo.h \
+		/usr/include/qt5/QtCore/qtypetraits.h \
+		/usr/include/qt5/QtCore/qsysinfo.h \
+		/usr/include/qt5/QtCore/qbytearray.h \
+		/usr/include/qt5/QtCore/qrefcount.h \
+		/usr/include/qt5/QtCore/qnamespace.h \
+		/usr/include/qt5/QtCore/qarraydata.h \
+		/usr/include/qt5/QtCore/qstringbuilder.h \
+		/usr/include/qt5/QtCore/QByteArray \
 		/usr/local/include/GraphicsMagick/Magick++.h \
 		/usr/local/include/GraphicsMagick/Magick++/Include.h \
 		/usr/local/include/GraphicsMagick/magick/magick_config.h \
@@ -725,7 +780,54 @@ temp/magicconverter.o: ../Code/magicconverter.cpp ../Code/magicconverter.h \
 		/usr/local/include/GraphicsMagick/Magick++/Montage.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o temp/magicconverter.o ../Code/magicconverter.cpp
 
-temp/tessreader.o: ../Code/tessreader.cpp ../Code/tessreader.h
+temp/tessreader.o: ../Code/tessreader.cpp ../Code/tessreader.h \
+		../Code/filemanager.h \
+		../Code/utility.h \
+		/usr/include/qt5/QtCore/QString \
+		/usr/include/qt5/QtCore/qstring.h \
+		/usr/include/qt5/QtCore/qchar.h \
+		/usr/include/qt5/QtCore/qglobal.h \
+		/usr/include/qt5/QtCore/qconfig.h \
+		/usr/include/qt5/QtCore/qfeatures.h \
+		/usr/include/qt5/QtCore/qsystemdetection.h \
+		/usr/include/qt5/QtCore/qprocessordetection.h \
+		/usr/include/qt5/QtCore/qcompilerdetection.h \
+		/usr/include/qt5/QtCore/qglobalstatic.h \
+		/usr/include/qt5/QtCore/qatomic.h \
+		/usr/include/qt5/QtCore/qbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_bootstrap.h \
+		/usr/include/qt5/QtCore/qgenericatomic.h \
+		/usr/include/qt5/QtCore/qatomic_msvc.h \
+		/usr/include/qt5/QtCore/qatomic_integrity.h \
+		/usr/include/qt5/QtCore/qoldbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_vxworks.h \
+		/usr/include/qt5/QtCore/qatomic_power.h \
+		/usr/include/qt5/QtCore/qatomic_alpha.h \
+		/usr/include/qt5/QtCore/qatomic_armv7.h \
+		/usr/include/qt5/QtCore/qatomic_armv6.h \
+		/usr/include/qt5/QtCore/qatomic_armv5.h \
+		/usr/include/qt5/QtCore/qatomic_bfin.h \
+		/usr/include/qt5/QtCore/qatomic_ia64.h \
+		/usr/include/qt5/QtCore/qatomic_mips.h \
+		/usr/include/qt5/QtCore/qatomic_s390.h \
+		/usr/include/qt5/QtCore/qatomic_sh4a.h \
+		/usr/include/qt5/QtCore/qatomic_sparc.h \
+		/usr/include/qt5/QtCore/qatomic_gcc.h \
+		/usr/include/qt5/QtCore/qatomic_x86.h \
+		/usr/include/qt5/QtCore/qatomic_cxx11.h \
+		/usr/include/qt5/QtCore/qatomic_unix.h \
+		/usr/include/qt5/QtCore/qmutex.h \
+		/usr/include/qt5/QtCore/qlogging.h \
+		/usr/include/qt5/QtCore/qflags.h \
+		/usr/include/qt5/QtCore/qtypeinfo.h \
+		/usr/include/qt5/QtCore/qtypetraits.h \
+		/usr/include/qt5/QtCore/qsysinfo.h \
+		/usr/include/qt5/QtCore/qbytearray.h \
+		/usr/include/qt5/QtCore/qrefcount.h \
+		/usr/include/qt5/QtCore/qnamespace.h \
+		/usr/include/qt5/QtCore/qarraydata.h \
+		/usr/include/qt5/QtCore/qstringbuilder.h \
+		/usr/include/qt5/QtCore/QByteArray
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o temp/tessreader.o ../Code/tessreader.cpp
 
 temp/fileopener.o: ../Code/fileopener.cpp /usr/include/qt5/QtGui/QtGui \
@@ -1069,11 +1171,64 @@ temp/fileopener.o: ../Code/fileopener.cpp /usr/include/qt5/QtGui/QtGui \
 		/usr/include/qt5/QtWidgets/QTextEdit \
 		/usr/include/qt5/QtWidgets/qtextedit.h \
 		/usr/include/qt5/QtWidgets/QWidget \
-		../Code/tessreader.h
+		../Code/tessreader.h \
+		../Code/filemanager.h \
+		../Code/magicconverter.h \
+		../Code/utility.h \
+		/usr/include/qt5/QtCore/QString \
+		/usr/include/qt5/QtCore/QByteArray
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o temp/fileopener.o ../Code/fileopener.cpp
 
-temp/utility.o: ../Code/utility.cpp 
+temp/utility.o: ../Code/utility.cpp ../Code/utility.h \
+		/usr/include/qt5/QtCore/QString \
+		/usr/include/qt5/QtCore/qstring.h \
+		/usr/include/qt5/QtCore/qchar.h \
+		/usr/include/qt5/QtCore/qglobal.h \
+		/usr/include/qt5/QtCore/qconfig.h \
+		/usr/include/qt5/QtCore/qfeatures.h \
+		/usr/include/qt5/QtCore/qsystemdetection.h \
+		/usr/include/qt5/QtCore/qprocessordetection.h \
+		/usr/include/qt5/QtCore/qcompilerdetection.h \
+		/usr/include/qt5/QtCore/qglobalstatic.h \
+		/usr/include/qt5/QtCore/qatomic.h \
+		/usr/include/qt5/QtCore/qbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_bootstrap.h \
+		/usr/include/qt5/QtCore/qgenericatomic.h \
+		/usr/include/qt5/QtCore/qatomic_msvc.h \
+		/usr/include/qt5/QtCore/qatomic_integrity.h \
+		/usr/include/qt5/QtCore/qoldbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_vxworks.h \
+		/usr/include/qt5/QtCore/qatomic_power.h \
+		/usr/include/qt5/QtCore/qatomic_alpha.h \
+		/usr/include/qt5/QtCore/qatomic_armv7.h \
+		/usr/include/qt5/QtCore/qatomic_armv6.h \
+		/usr/include/qt5/QtCore/qatomic_armv5.h \
+		/usr/include/qt5/QtCore/qatomic_bfin.h \
+		/usr/include/qt5/QtCore/qatomic_ia64.h \
+		/usr/include/qt5/QtCore/qatomic_mips.h \
+		/usr/include/qt5/QtCore/qatomic_s390.h \
+		/usr/include/qt5/QtCore/qatomic_sh4a.h \
+		/usr/include/qt5/QtCore/qatomic_sparc.h \
+		/usr/include/qt5/QtCore/qatomic_gcc.h \
+		/usr/include/qt5/QtCore/qatomic_x86.h \
+		/usr/include/qt5/QtCore/qatomic_cxx11.h \
+		/usr/include/qt5/QtCore/qatomic_unix.h \
+		/usr/include/qt5/QtCore/qmutex.h \
+		/usr/include/qt5/QtCore/qlogging.h \
+		/usr/include/qt5/QtCore/qflags.h \
+		/usr/include/qt5/QtCore/qtypeinfo.h \
+		/usr/include/qt5/QtCore/qtypetraits.h \
+		/usr/include/qt5/QtCore/qsysinfo.h \
+		/usr/include/qt5/QtCore/qbytearray.h \
+		/usr/include/qt5/QtCore/qrefcount.h \
+		/usr/include/qt5/QtCore/qnamespace.h \
+		/usr/include/qt5/QtCore/qarraydata.h \
+		/usr/include/qt5/QtCore/qstringbuilder.h \
+		/usr/include/qt5/QtCore/QByteArray
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o temp/utility.o ../Code/utility.cpp
+
+temp/filemanager.o: ../Code/filemanager.cpp ../Code/filemanager.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o temp/filemanager.o ../Code/filemanager.cpp
 
 temp/moc_fileopener.o: temp/moc_fileopener.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o temp/moc_fileopener.o temp/moc_fileopener.cpp
