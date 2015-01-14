@@ -20,6 +20,8 @@ using namespace std;
 
     void emptyTemp();
 
+    string partStringFromBehind(const char *str,const char *sign, int count);
+
 }
 
 

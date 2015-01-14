@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <sstream>
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -21,12 +22,12 @@ int main(int argc, char *argv[])
 
     FileManager *fman=new FileManager;
 
-    // Automatisch bearbeitete Datei
-    fman->setTarget("");
-
     // LogoAnzeige
     char logo[]="../Documents/Logo.png";
     fman->setLogo(logo);
+
+    // Target Standardbelegung
+    fman->setTarget(fman->getLogo());
 
     // Anzahl Seiten initial auf 0 setzen
     fman->setNumb(0);
@@ -44,7 +45,8 @@ int main(int argc, char *argv[])
     app.exec();
 
     // Datei ausgewählt?
-    if(fman->getTarget().empty()){
+    if(!fman->getTarget().compare(fman->getLogo())){
+        cout<<"\n ****Abbruch**** \n";
         return 0;
     }
 

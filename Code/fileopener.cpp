@@ -9,6 +9,10 @@
 
 using namespace std;
 
+/*
+ * Hauptdialog über den die Datei ausgewählt und Optionen eingestellt
+ * werden sollen.
+ */
 FileOpener::FileOpener(TessReader *pTessi, MagicConverter *pMagic, FileManager *pFman)
 {
 setupUi(this);
@@ -51,13 +55,20 @@ connect( pushButton_convert, SIGNAL( clicked() ), this, SLOT( checkInput() ) );
 connect( pushButton_quit, SIGNAL( clicked() ), this, SLOT( quit() ) );
 
 // Starttext
-setText(fman->getTarget());
+string starttext="";
+setText(starttext);
 
 // Startbild wird angezeigt
 target2Picture(fman->getLogo());
 
 }
 
+/*
+ * Diese Funktion wird genutzt um einen Datei-Öffnen
+ * Dialog zu starten. Die Daten werden dann entsprechend
+ * an Methoden weitergeleitet um diese auf der GUI
+ * anzuzeigen.
+ */
 void FileOpener::getPath()
 {
     QString path;
@@ -71,6 +82,10 @@ void FileOpener::getPath()
     // Datei soll im Fenster angezeit werden
     // Dazu umwandlung der des QString in char*
     char *c_path=utility::QString2Char_p(path);
+    if(*c_path==0){
+        c_path=fman->getLogo();
+        fman->setNumb(0);
+    }
     string s_path(c_path);
     fman->setTarget(s_path);
     target2Picture(c_path);
@@ -78,25 +93,40 @@ void FileOpener::getPath()
     // Pfad und Seitenzahlen in GUI anzeigen
     setText(path);
     setPageNumbers();
-
 }
 
+/*
+ * Hier soll geprüft werden, ob eingegebener Path-String
+ * auf eine Konsistente Datei zeigt. Wenn ja soll
+ * Dialog geschlossen und Konvertierung gestartet
+ * werden.
+ */
 void FileOpener::checkInput(){
     close();
 }
 
+/*
+ * Dialog wird geschlossen und das Ziel-PDF
+ * auf standard gesetzt.
+ */
 void FileOpener::quit(){
-    fman->setTarget("");
+    fman->setTarget(fman->getLogo());
     close();
 }
 
-// Überladene Methode um Textfeld zu füllen
+/*
+ * Überladene Methode um Textfeld für Dateianzeige
+ * zu füllen
+ */
 void FileOpener::setText(string pIn){
     QString in(pIn.c_str());
     setText(in);
 }
 
-// Überladene Methode um Textfeld zu füllen
+/*
+ * Überladene Methode um Textfeld für Dateianzeige
+ * zu füllen
+ */
 void FileOpener::setText(QString in){
     // Anzeige falls keine Zieldatei
     if(in.isEmpty()){
@@ -104,13 +134,18 @@ void FileOpener::setText(QString in){
         text_output->setText("browse tex...");
         return;
     }
+    // Später hier weiter machen!! kürzere anzeige des path
+    // in_shor=utility::partStringFromBehind(utility::QString2Char_p(in);
     QString out=in;
     out.replace(".pdf",".tex");
     text_input->setText(in);
     text_output->setText(out);
 }
 
-// Seitenzahlen werden in GUI angezeigt
+
+/*
+ * Seitenzahlen werden in GUI angezeigt
+ */
 void FileOpener::setPageNumbers(){
     QString start;
     QString end;
@@ -125,7 +160,9 @@ void FileOpener::setPageNumbers(){
     end_page->setText(end);
 }
 
-// Setzt Bild in GUI-Anzeige
+/*
+ * Setzt Bild in GUI-Anzeige
+ */
 void FileOpener::target2Picture(const char *imag){
     const char * n_img;
     // StandardBild, wenn nichts ausgewählt
@@ -148,7 +185,9 @@ void FileOpener::target2Picture(const char *imag){
     graphicsView->fitInView(sc->sceneRect(),Qt::KeepAspectRatio);
 }
 
-// Hilfsfunktion um Bild auf richtige Größe zu bekommen
+/*
+ * Hilfsfunktion um Bild auf richtige Größe zu bekommen
+ */
 void FileOpener::resizeEvent(QResizeEvent *) {
     QRectF bounds = sc->itemsBoundingRect();
     bounds.setWidth(bounds.width()*0.9);
