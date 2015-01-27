@@ -13,8 +13,8 @@
 # Written by Bob Friesenhahn <bfriesen@simple.dallas.tx.us> December 2003
 #
 
-top_srcdir='/home/andi/Dokumente/GraphicsMagick-1.3.20'
-top_builddir='/home/andi/Dokumente/GraphicsMagick-1.3.20'
+top_srcdir='/home/andi/Dokumente/PDF2TeX/Code/GraphicsMagick-1.3.20'
+top_builddir='/home/andi/Dokumente/PDF2TeX/Code/GraphicsMagick-1.3.20'
 
 MAGICK_CODER_MODULE_PATH="${top_builddir}/coders"
 MAGICK_CONFIGURE_SRC_PATH="${top_srcdir}/config"

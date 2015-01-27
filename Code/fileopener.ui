@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>607</width>
-    <height>523</height>
+    <width>891</width>
+    <height>721</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -89,37 +89,55 @@ p, li { white-space: pre-wrap; }
   <widget class="QGraphicsView" name="graphicsView">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>60</y>
-     <width>305</width>
-     <height>371</height>
+     <x>360</x>
+     <y>50</y>
+     <width>461</width>
+     <height>571</height>
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="start_page">
+  <widget class="QLineEdit" name="pages">
    <property name="geometry">
     <rect>
      <x>30</x>
      <y>300</y>
-     <width>81</width>
+     <width>251</width>
      <height>27</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <italic>true</italic>
+    </font>
+   </property>
    <property name="text">
-    <string>Page start</string>
+    <string>start - end</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="end_page">
+  <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>300</y>
-     <width>81</width>
+     <x>490</x>
+     <y>650</y>
+     <width>99</width>
      <height>27</height>
     </rect>
    </property>
    <property name="text">
-    <string>Page end</string>
+    <string>&lt;&lt;</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="next_page">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>650</y>
+     <width>99</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&gt;&gt;</string>
    </property>
   </widget>
  </widget>

@@ -6,6 +6,8 @@
 #include "filemanager.h"
 
 #include <iostream>
+#include <sstream>
+#include <stack>
 
 using namespace std;
 
@@ -42,6 +44,8 @@ y = (screenHeight - height) / 2;
 y -= 50;
 
 move ( x, y );
+
+
 
 // Flags werden gesetzt
 Qt::WindowFlags flags;
@@ -102,6 +106,7 @@ void FileOpener::getPath()
  * werden.
  */
 void FileOpener::checkInput(){
+    parsePages();
     close();
 }
 
@@ -156,8 +161,8 @@ void FileOpener::setPageNumbers(){
         start=utility::convertInt(1).c_str();
         end=utility::convertInt(fman->getNumb()).c_str();
     }
-    start_page->setText(start);
-    end_page->setText(end);
+    //start_page->setText(start);
+    //end_page->setText(end);
 }
 
 /*
@@ -195,3 +200,54 @@ void FileOpener::resizeEvent(QResizeEvent *) {
     graphicsView->fitInView(bounds, Qt::KeepAspectRatio);
     graphicsView->centerOn(0, 0);
 }
+
+bool FileOpener::parsePages(){
+    string s_pages = utility::QString2Char_p(pages->text());
+    s_pages+="Z";
+    int i_pages[1000]={0};
+    int i=0;
+    char lastMember=0;
+    stack<char> aktInt;
+    bool identifyNumber=false;
+
+    for(string::iterator it=s_pages.begin();it!=s_pages.end();it++){
+        char temp=*it;
+
+        // Zahl erkennen
+        if(49<=temp && temp<=57){
+            aktInt.push(temp);
+            identifyNumber=true;
+            continue;
+        }
+        // Zahlerkennung zuende
+        if(identifyNumber){
+            identifyNumber=false;
+            int temp_i=0;
+            for(int j=0; j<aktInt.size();j++){
+                // char in int konvertieren
+                temp_i+=(aktInt.top()-'0')*pow(10,j);
+                aktInt.pop();
+            }
+            // Wenn kein "-" dann einfach schreiben
+            if(lastMember!=45) i_pages[i++]=temp_i;
+            else{
+                for(int j=i_pages[i-1];j<=temp_i;j++){
+                    i_pages[i++]=j;
+                }
+            }
+        }
+
+        // Seiten von/bis : "-"
+        if(temp==45){
+            lastMember=temp;
+            continue;
+        }
+    }
+    for(int k=0; i_pages[k]!=0; k++){
+        cout<<endl<<i_pages[k];
+    }
+    cout<<endl;
+    return true;
+}
+
+

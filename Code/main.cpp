@@ -17,6 +17,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
+
     // temp-Verzeichnis leeren
     utility::emptyTemp();
 

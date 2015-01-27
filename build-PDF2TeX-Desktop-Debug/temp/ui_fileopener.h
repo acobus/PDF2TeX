@@ -31,14 +31,15 @@ public:
     QPushButton *pushButton_convert;
     QPushButton *pushButton_quit;
     QGraphicsView *graphicsView;
-    QLineEdit *start_page;
-    QLineEdit *end_page;
+    QLineEdit *pages;
+    QPushButton *pushButton;
+    QPushButton *next_page;
 
     void setupUi(QWidget *FileOpenerDLG)
     {
         if (FileOpenerDLG->objectName().isEmpty())
             FileOpenerDLG->setObjectName(QStringLiteral("FileOpenerDLG"));
-        FileOpenerDLG->resize(607, 523);
+        FileOpenerDLG->resize(891, 721);
         text_input = new QTextEdit(FileOpenerDLG);
         text_input->setObjectName(QStringLiteral("text_input"));
         text_input->setGeometry(QRect(30, 100, 201, 41));
@@ -56,13 +57,19 @@ public:
         pushButton_quit->setGeometry(QRect(30, 470, 99, 27));
         graphicsView = new QGraphicsView(FileOpenerDLG);
         graphicsView->setObjectName(QStringLiteral("graphicsView"));
-        graphicsView->setGeometry(QRect(270, 60, 305, 371));
-        start_page = new QLineEdit(FileOpenerDLG);
-        start_page->setObjectName(QStringLiteral("start_page"));
-        start_page->setGeometry(QRect(30, 300, 81, 27));
-        end_page = new QLineEdit(FileOpenerDLG);
-        end_page->setObjectName(QStringLiteral("end_page"));
-        end_page->setGeometry(QRect(150, 300, 81, 27));
+        graphicsView->setGeometry(QRect(360, 50, 461, 571));
+        pages = new QLineEdit(FileOpenerDLG);
+        pages->setObjectName(QStringLiteral("pages"));
+        pages->setGeometry(QRect(30, 300, 251, 27));
+        QFont font;
+        font.setItalic(true);
+        pages->setFont(font);
+        pushButton = new QPushButton(FileOpenerDLG);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(490, 650, 99, 27));
+        next_page = new QPushButton(FileOpenerDLG);
+        next_page->setObjectName(QStringLiteral("next_page"));
+        next_page->setGeometry(QRect(610, 650, 99, 27));
 
         retranslateUi(FileOpenerDLG);
 
@@ -85,8 +92,9 @@ public:
         pushButton_browse->setText(QApplication::translate("FileOpenerDLG", "Browse", 0));
         pushButton_convert->setText(QApplication::translate("FileOpenerDLG", "Convert", 0));
         pushButton_quit->setText(QApplication::translate("FileOpenerDLG", "Quit", 0));
-        start_page->setText(QApplication::translate("FileOpenerDLG", "Page start", 0));
-        end_page->setText(QApplication::translate("FileOpenerDLG", "Page end", 0));
+        pages->setText(QApplication::translate("FileOpenerDLG", "start - end", 0));
+        pushButton->setText(QApplication::translate("FileOpenerDLG", "<<", 0));
+        next_page->setText(QApplication::translate("FileOpenerDLG", ">>", 0));
     } // retranslateUi
 
 };

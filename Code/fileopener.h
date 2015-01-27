@@ -6,6 +6,7 @@
 #include "magicconverter.h"
 #include "filemanager.h"
 
+
 using namespace std;
 
 class FileOpener : public QWidget, private Ui::FileOpenerDLG
@@ -16,6 +17,7 @@ public:
     void setPageNumbers();
     void target2Picture(const char *img);
     void resizeEvent(QResizeEvent *);
+    bool parsePages();
 
 private:
     TessReader *tessi;

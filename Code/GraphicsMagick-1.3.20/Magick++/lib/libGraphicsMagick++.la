@@ -17,7 +17,7 @@ old_library='libGraphicsMagick++.a'
 inherited_linker_flags=' -pthread -fopenmp'
 
 # Libraries that this one depends upon.
-dependency_libs=' /home/andi/Dokumente/GraphicsMagick-1.3.20/magick/libGraphicsMagick.la -ljbig /usr/lib/x86_64-linux-gnu/libtiff.la -ljpeg -lpng12 -lXext -lX11 -llzma -lz -lgomp'
+dependency_libs=' /home/andi/Dokumente/PDF2TeX/Code/GraphicsMagick-1.3.20/magick/libGraphicsMagick.la -ljbig /usr/lib/x86_64-linux-gnu/libtiff.la -ljpeg -lpng12 -lXext -lX11 -llzma -lz -lgomp'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''
