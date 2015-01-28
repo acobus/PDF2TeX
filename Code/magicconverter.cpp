@@ -5,6 +5,7 @@
 #include <Magick++.h>
 
 #include <iostream>
+#include <vector>
 
 using namespace Magick;
 
@@ -22,31 +23,23 @@ MagicConverter::MagicConverter(FileManager *pFman)
  * target hinterlegt ist.
  * Input:
  *  dense               Kompaktheit des Bildes
- *  defineNumbPages     Gibt an ob Seitenzahl neu berechnet
- *                      oder der bekannte Wert genommen wird
+ *  page_vec            Vektor mit zu parsenden Seiten
+ *
  */
-void MagicConverter::pdf2png(int dense,bool defineNumbPages){
+void MagicConverter::pdf2png(int dense, vector<int> page_vec){
     string target = fman->getTarget();
     // PDF einlesen und in Zieldatei speichern
     InitializeMagick(*fman->getArgv());
     Image img;
     img.density(Magick::Geometry(dense,dense));
-    int page;
     string page_s;
-    for (page=0;true;page++){
-        if(!defineNumbPages && page>=fman->getNumb()){
-            return;
-        }
-        page_s="../temp/pg" + utility::convertInt(page) + ".png";
+    for (int i=0; i<page_vec.size();i++){
+        page_s="../temp/pg" + utility::convertInt(page_vec[i]-1) + ".png";
         try{
-            img.read(target + "[" + utility::convertInt(page) + "]");
-            // Nur die erste konvertieren
-            if((page==0 && defineNumbPages)||!defineNumbPages){
-                img.write(page_s);
-            }
+            img.read(target + "[" + utility::convertInt(page_vec[i]-1) + "]");
+            img.write(page_s);
         // Letzte Seite gelesen
         }catch(Magick::ErrorDelegate error){
-            fman->setNumb(page);
             return;
         }
     }

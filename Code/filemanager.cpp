@@ -50,10 +50,13 @@ char *FileManager::getLogo(){
     return logo;
 }
 
-void FileManager::setNumb(int numb){
-    numberFiles=numb;
+void FileManager::addPage(int page){
+    for(int i=1; i<pages_vec.size(); i++){
+        if (pages_vec[i]==page) return;
+    }
+    pages_vec.push_back(page);
 }
 
-int FileManager::getNumb(){
-    return numberFiles;
+vector<int> FileManager::getPageVec(){
+    return pages_vec;
 }

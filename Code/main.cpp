@@ -30,9 +30,6 @@ int main(int argc, char *argv[])
     // Target Standardbelegung
     fman->setTarget(fman->getLogo());
 
-    // Anzahl Seiten initial auf 0 setzen
-    fman->setNumb(0);
-
     fman->setArgc(argc);
     fman->setArgv(argv);
 
@@ -52,14 +49,14 @@ int main(int argc, char *argv[])
     }
 
     // Konvertierung in passendes Format
-    magic.pdf2png(300,false);
+    vector<int> pages_vec=fman->getPageVec();
+    magic.pdf2png(300,pages_vec);
 
     // OCR-interpretierung
     stringstream input;
     string tessTarget;
-    //fman->setNumb(1);
-    for(int page=0;page<fman->getNumb();page++){
-        tessTarget="../temp/pg" + utility::convertInt(page) + ".png";
+    for(int i=0; i<pages_vec.size(); i++){
+        tessTarget="../temp/pg" + utility::convertInt(pages_vec[i]-1) + ".png";
         input << tessi.startReading(tessTarget);
     }
     tessi.endReading();

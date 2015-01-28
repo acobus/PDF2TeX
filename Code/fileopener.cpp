@@ -63,7 +63,8 @@ string starttext="";
 setText(starttext);
 
 // Startbild wird angezeigt
-target2Picture(fman->getLogo());
+vector<int> fake_vec;
+target2Picture(fman->getLogo(),fake_vec);
 
 }
 
@@ -88,15 +89,17 @@ void FileOpener::getPath()
     char *c_path=utility::QString2Char_p(path);
     if(*c_path==0){
         c_path=fman->getLogo();
-        fman->setNumb(0);
     }
     string s_path(c_path);
     fman->setTarget(s_path);
-    target2Picture(c_path);
+
+    // Bildanzeige in GUI
+    int v[5] = { 1,2,3,4,5 };
+    vector<int> pages_vec(&v[0], &v[0]+5);
+    target2Picture(c_path,pages_vec);
 
     // Pfad und Seitenzahlen in GUI anzeigen
     setText(path);
-    setPageNumbers();
 }
 
 /*
@@ -147,28 +150,10 @@ void FileOpener::setText(QString in){
     text_output->setText(out);
 }
 
-
-/*
- * Seitenzahlen werden in GUI angezeigt
- */
-void FileOpener::setPageNumbers(){
-    QString start;
-    QString end;
-    if(fman->getNumb()==0){
-        start="Page start";
-        end="Page end";
-    }else{
-        start=utility::convertInt(1).c_str();
-        end=utility::convertInt(fman->getNumb()).c_str();
-    }
-    //start_page->setText(start);
-    //end_page->setText(end);
-}
-
 /*
  * Setzt Bild in GUI-Anzeige
  */
-void FileOpener::target2Picture(const char *imag){
+void FileOpener::target2Picture(const char *imag, vector<int> pages_vec){
     const char * n_img;
     // StandardBild, wenn nichts ausgewählt
     if(imag==0){
@@ -177,7 +162,7 @@ void FileOpener::target2Picture(const char *imag){
     char format[]=".pdf";
     if (utility::checkFormat(imag,format)){
         //Zieldatei als bild convertieren
-        magic->pdf2png(100,true);
+        magic->pdf2png(100,pages_vec);
         n_img="../temp/pg0.png";
     }else{
         n_img=imag;
@@ -204,8 +189,7 @@ void FileOpener::resizeEvent(QResizeEvent *) {
 bool FileOpener::parsePages(){
     string s_pages = utility::QString2Char_p(pages->text());
     s_pages+="Z";
-    int i_pages[1000]={0};
-    int i=0;
+    vector<int> i_pages;
     char lastMember=0;
     stack<char> aktInt;
     bool identifyNumber=false;
@@ -214,7 +198,7 @@ bool FileOpener::parsePages(){
         char temp=*it;
 
         // Zahl erkennen
-        if(49<=temp && temp<=57){
+        if(48<=temp && temp<=57){
             aktInt.push(temp);
             identifyNumber=true;
             continue;
@@ -223,16 +207,17 @@ bool FileOpener::parsePages(){
         if(identifyNumber){
             identifyNumber=false;
             int temp_i=0;
-            for(int j=0; j<aktInt.size();j++){
+            int size=aktInt.size();
+            for(int j=0; j<size; j++){
                 // char in int konvertieren
                 temp_i+=(aktInt.top()-'0')*pow(10,j);
                 aktInt.pop();
             }
             // Wenn kein "-" dann einfach schreiben
-            if(lastMember!=45) i_pages[i++]=temp_i;
+            if(lastMember!=45) i_pages.push_back(temp_i);
             else{
-                for(int j=i_pages[i-1];j<=temp_i;j++){
-                    i_pages[i++]=j;
+                for(int j=i_pages[i_pages.size()-1]+1; j<=temp_i; j++){
+                    i_pages.push_back(j);
                 }
             }
         }
@@ -243,11 +228,15 @@ bool FileOpener::parsePages(){
             continue;
         }
     }
-    for(int k=0; i_pages[k]!=0; k++){
+    // Gelesene Seiten an FileManager übergeben
+    for(int i=0; i<i_pages.size(); i++){
+        fman->addPage(i_pages[i]);
+    }
+
+    int size=i_pages.size();
+    for(int k=0; k<size; k++){
         cout<<endl<<i_pages[k];
     }
     cout<<endl;
     return true;
 }
-
-

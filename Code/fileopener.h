@@ -14,8 +14,7 @@ class FileOpener : public QWidget, private Ui::FileOpenerDLG
     Q_OBJECT
 public:
     FileOpener(TessReader *pTessi, MagicConverter *pMagic, FileManager *pFman);
-    void setPageNumbers();
-    void target2Picture(const char *img);
+    void target2Picture(const char *img, vector<int> pages_vec);
     void resizeEvent(QResizeEvent *);
     bool parsePages();
 

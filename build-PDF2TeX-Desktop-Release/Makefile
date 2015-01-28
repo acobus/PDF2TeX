@@ -14,7 +14,7 @@ CC            = gcc
 CXX           = g++
 DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -m64 -pipe -O2 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
-CXXFLAGS      = -m64 -pipe -pthread -std=c++11 -O2 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
+CXXFLAGS      = -m64 -pipe -pthread -O2 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
 INCPATH       = -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I../Code -I/usr/local/include/GraphicsMagick -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -Itemp -Itemp -I.
 LINK          = g++
 LFLAGS        = -m64 -Wl,-O1
@@ -50,13 +50,15 @@ SOURCES       = ../Code/main.cpp \
 		../Code/tessreader.cpp \
 		../Code/fileopener.cpp \
 		../Code/utility.cpp \
-		../Code/filemanager.cpp temp/moc_fileopener.cpp
+		../Code/filemanager.cpp \
+		../Code/texparser.cpp temp/moc_fileopener.cpp
 OBJECTS       = temp/main.o \
 		temp/magicconverter.o \
 		temp/tessreader.o \
 		temp/fileopener.o \
 		temp/utility.o \
 		temp/filemanager.o \
+		temp/texparser.o \
 		temp/moc_fileopener.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/shell-unix.conf \
@@ -282,7 +284,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d temp/ApiExample1.0.0 || mkdir -p temp/ApiExample1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) temp/ApiExample1.0.0/ && $(COPY_FILE) --parents ../Code/magicconverter.h ../Code/tessreader.h ../Code/fileopener.h ../Code/utility.h ../Code/filemanager.h temp/ApiExample1.0.0/ && $(COPY_FILE) --parents ../Code/main.cpp ../Code/magicconverter.cpp ../Code/tessreader.cpp ../Code/fileopener.cpp ../Code/utility.cpp ../Code/filemanager.cpp temp/ApiExample1.0.0/ && $(COPY_FILE) --parents ../Code/fileopener.ui temp/ApiExample1.0.0/ && (cd `dirname temp/ApiExample1.0.0` && $(TAR) ApiExample1.0.0.tar ApiExample1.0.0 && $(COMPRESS) ApiExample1.0.0.tar) && $(MOVE) `dirname temp/ApiExample1.0.0`/ApiExample1.0.0.tar.gz . && $(DEL_FILE) -r temp/ApiExample1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) temp/ApiExample1.0.0/ && $(COPY_FILE) --parents ../Code/magicconverter.h ../Code/tessreader.h ../Code/fileopener.h ../Code/utility.h ../Code/filemanager.h ../Code/texparser.h temp/ApiExample1.0.0/ && $(COPY_FILE) --parents ../Code/main.cpp ../Code/magicconverter.cpp ../Code/tessreader.cpp ../Code/fileopener.cpp ../Code/utility.cpp ../Code/filemanager.cpp ../Code/texparser.cpp temp/ApiExample1.0.0/ && $(COPY_FILE) --parents ../Code/fileopener.ui temp/ApiExample1.0.0/ && (cd `dirname temp/ApiExample1.0.0` && $(TAR) ApiExample1.0.0.tar ApiExample1.0.0 && $(COMPRESS) ApiExample1.0.0.tar) && $(MOVE) `dirname temp/ApiExample1.0.0`/ApiExample1.0.0.tar.gz . && $(DEL_FILE) -r temp/ApiExample1.0.0
 
 
 clean:compiler_clean 
@@ -488,7 +490,8 @@ compiler_clean: compiler_moc_header_clean compiler_uic_clean
 
 ####### Compile
 
-temp/main.o: ../Code/main.cpp ../Code/magicconverter.h \
+temp/main.o: ../Code/main.cpp ../Code/texparser.h \
+		../Code/magicconverter.h \
 		../Code/filemanager.h \
 		../Code/tessreader.h \
 		../Code/fileopener.h \
@@ -1229,6 +1232,9 @@ temp/utility.o: ../Code/utility.cpp ../Code/utility.h \
 
 temp/filemanager.o: ../Code/filemanager.cpp ../Code/filemanager.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o temp/filemanager.o ../Code/filemanager.cpp
+
+temp/texparser.o: ../Code/texparser.cpp ../Code/texparser.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o temp/texparser.o ../Code/texparser.cpp
 
 temp/moc_fileopener.o: temp/moc_fileopener.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o temp/moc_fileopener.o temp/moc_fileopener.cpp

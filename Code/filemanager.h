@@ -2,6 +2,7 @@
 #define FILEMANAGER_H
 
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -22,15 +23,15 @@ public:
     void setLogo(char * pLogo);
     char * getLogo();
 
-    void setNumb(int numb);
-    int getNumb();
+    void addPage(int page);
+    vector<int> getPageVec();
 
 private:
+    vector<int> pages_vec;
     int argc;
     char **argv;
     string target;
     char *logo;
-    int numberFiles;
 };
 
 #endif // FILEMANAGER_H
