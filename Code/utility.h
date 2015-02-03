@@ -22,6 +22,8 @@ using namespace std;
 
     string partStringFromBehind(const char *str,const char *sign, int count);
 
+    bool pageConverted (const string& file);
+
 }
 
 

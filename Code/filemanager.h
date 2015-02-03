@@ -26,8 +26,12 @@ public:
     void addPage(int page);
     vector<int> getPageVec();
 
+    int getAktPage();
+    void setAktPage(int page);
+
 private:
     vector<int> pages_vec;
+    int aktPage;
     int argc;
     char **argv;
     string target;

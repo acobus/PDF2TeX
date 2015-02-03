@@ -32,8 +32,9 @@ public:
     QPushButton *pushButton_quit;
     QGraphicsView *graphicsView;
     QLineEdit *pages;
-    QPushButton *pushButton;
+    QPushButton *previous_page;
     QPushButton *next_page;
+    QTextEdit *page_interact;
 
     void setupUi(QWidget *FileOpenerDLG)
     {
@@ -64,12 +65,15 @@ public:
         QFont font;
         font.setItalic(true);
         pages->setFont(font);
-        pushButton = new QPushButton(FileOpenerDLG);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(490, 650, 99, 27));
+        previous_page = new QPushButton(FileOpenerDLG);
+        previous_page->setObjectName(QStringLiteral("previous_page"));
+        previous_page->setGeometry(QRect(430, 650, 99, 27));
         next_page = new QPushButton(FileOpenerDLG);
         next_page->setObjectName(QStringLiteral("next_page"));
-        next_page->setGeometry(QRect(610, 650, 99, 27));
+        next_page->setGeometry(QRect(660, 650, 99, 27));
+        page_interact = new QTextEdit(FileOpenerDLG);
+        page_interact->setObjectName(QStringLiteral("page_interact"));
+        page_interact->setGeometry(QRect(550, 650, 91, 31));
 
         retranslateUi(FileOpenerDLG);
 
@@ -93,7 +97,7 @@ public:
         pushButton_convert->setText(QApplication::translate("FileOpenerDLG", "Convert", 0));
         pushButton_quit->setText(QApplication::translate("FileOpenerDLG", "Quit", 0));
         pages->setText(QApplication::translate("FileOpenerDLG", "start - end", 0));
-        pushButton->setText(QApplication::translate("FileOpenerDLG", "<<", 0));
+        previous_page->setText(QApplication::translate("FileOpenerDLG", "<<", 0));
         next_page->setText(QApplication::translate("FileOpenerDLG", ">>", 0));
     } // retranslateUi
 

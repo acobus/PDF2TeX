@@ -17,7 +17,6 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-
     // temp-Verzeichnis leeren
     utility::emptyTemp();
 
@@ -50,13 +49,13 @@ int main(int argc, char *argv[])
 
     // Konvertierung in passendes Format
     vector<int> pages_vec=fman->getPageVec();
-    magic.pdf2png(300,pages_vec);
+    magic.pdf2png(500,pages_vec);
 
     // OCR-interpretierung
     stringstream input;
     string tessTarget;
     for(int i=0; i<pages_vec.size(); i++){
-        tessTarget="../temp/pg" + utility::convertInt(pages_vec[i]-1) + ".png";
+        tessTarget="../temp/pg" + utility::convertInt(pages_vec[i]) + ".png";
         input << tessi.startReading(tessTarget);
     }
     tessi.endReading();
@@ -64,6 +63,5 @@ int main(int argc, char *argv[])
     // .tex erzeugen
     TexParser parser;
     parser.parseText(input.str());
-
     return 0;
 }

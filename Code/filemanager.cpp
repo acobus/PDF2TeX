@@ -60,3 +60,11 @@ void FileManager::addPage(int page){
 vector<int> FileManager::getPageVec(){
     return pages_vec;
 }
+
+int FileManager::getAktPage(){
+    return aktPage;
+}
+
+void FileManager::setAktPage(int page){
+    aktPage=page;
+}

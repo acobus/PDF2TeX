@@ -1,6 +1,7 @@
 #include <QtGui>
 #include <QFileDialog>
 #include <QDesktopWidget>
+
 #include "fileopener.h"
 #include "utility.h"
 #include "filemanager.h"
@@ -57,6 +58,8 @@ setWindowFlags( flags );
 connect( pushButton_browse, SIGNAL( clicked() ), this, SLOT( getPath() ) );
 connect( pushButton_convert, SIGNAL( clicked() ), this, SLOT( checkInput() ) );
 connect( pushButton_quit, SIGNAL( clicked() ), this, SLOT( quit() ) );
+connect( next_page, SIGNAL (clicked() ) ,this, SLOT (changeDisplayedPage()));
+connect( previous_page, SIGNAL( clicked() ), this, SLOT ( changeDisplayedPage() ) );
 
 // Starttext
 string starttext="";
@@ -91,7 +94,15 @@ void FileOpener::getPath()
         c_path=fman->getLogo();
     }
     string s_path(c_path);
+
+    // Überprüfe ob sich Target geändert hat
+    if(strcmp(s_path.c_str(),fman->getTarget().c_str())==0) return;
+
+    // Wenn geändert setze alles neu:
     fman->setTarget(s_path);
+
+    // Erstellte Konvertierungen löschen
+    utility::emptyTemp();
 
     // Bildanzeige in GUI
     int v[5] = { 1,2,3,4,5 };
@@ -110,6 +121,7 @@ void FileOpener::getPath()
  */
 void FileOpener::checkInput(){
     parsePages();
+    utility::emptyTemp();
     close();
 }
 
@@ -152,27 +164,41 @@ void FileOpener::setText(QString in){
 
 /*
  * Setzt Bild in GUI-Anzeige
+ * Diese Methode bekommt dazu die Datei gegeben sowie einen Vektor mit
+ * Seitenzahlen. Dabei wird das erste Bild des Vektors in der GUI angezeigt.
+ * Falls die Datei nicht im richtigen Format ist, findet eine entsprechende
+ * Konvertierung statt.
+ * Falls der String leer ist, wird das LOGO als Bild gesetzt.
  */
 void FileOpener::target2Picture(const char *imag, vector<int> pages_vec){
     const char * n_img;
-    // StandardBild, wenn nichts ausgewählt
-    if(imag==0){
-        n_img="../Documents/Logo.png";
-    }
     char format[]=".pdf";
-    if (utility::checkFormat(imag,format)){
+    // StandardBild, wenn nichts ausgewählt
+    if(imag==0 || strcmp(imag,"../Documents/Logo.png")==0){
+        n_img="../Documents/Logo.png";
+    }else if (utility::checkFormat(imag,format)){
         //Zieldatei als bild convertieren
         magic->pdf2png(100,pages_vec);
-        n_img="../temp/pg0.png";
+        // Es soll erstes Bild aus Vektor angezeigt werden
+        int firstPage=pages_vec[0];
+        fman->setAktPage(firstPage);
+        string page_numb=utility::convertInt(firstPage);
+        QString pageOutput(page_numb.c_str());
+        page_interact->setText(pageOutput);
+        string tmp="../temp/pg" + page_numb + ".png";
+        n_img=tmp.c_str();
     }else{
-        n_img=imag;
+        // TODO : was passiert wenn keine pdf gegeben wird
+        return;
     }
+
     QPixmap qimg(n_img);
     sc =new QGraphicsScene();
     sc->addPixmap(qimg);
     graphicsView->setScene(sc);
     QShowEvent *event();
     graphicsView->fitInView(sc->sceneRect(),Qt::KeepAspectRatio);
+
 }
 
 /*
@@ -186,6 +212,11 @@ void FileOpener::resizeEvent(QResizeEvent *) {
     graphicsView->centerOn(0, 0);
 }
 
+
+/*
+ * Diese Methode liest die parsed die Seitenzahl-Eingabe
+ * Die Rückgabe entspricht Erfolg oder Misserfolg des Lesen.
+ */
 bool FileOpener::parsePages(){
     string s_pages = utility::QString2Char_p(pages->text());
     s_pages+="Z";
@@ -233,10 +264,16 @@ bool FileOpener::parsePages(){
         fman->addPage(i_pages[i]);
     }
 
+    // Vorläufige Ausgabe der gelesenen Seiten zum Überprüfen
     int size=i_pages.size();
+    cout<<"\n Parsed pages:";
     for(int k=0; k<size; k++){
         cout<<endl<<i_pages[k];
     }
     cout<<endl;
     return true;
+}
+
+void FileOpener::changeDisplayedPage(){
+
 }

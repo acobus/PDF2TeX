@@ -34,7 +34,9 @@ void MagicConverter::pdf2png(int dense, vector<int> page_vec){
     img.density(Magick::Geometry(dense,dense));
     string page_s;
     for (int i=0; i<page_vec.size();i++){
-        page_s="../temp/pg" + utility::convertInt(page_vec[i]-1) + ".png";
+        page_s="../temp/pg" + utility::convertInt(page_vec[i]) + ".png";
+        // Überprüfe zunächst, ob Seite bereits vorliegt
+        if (utility::pageConverted(page_s)) continue;
         try{
             img.read(target + "[" + utility::convertInt(page_vec[i]-1) + "]");
             img.write(page_s);

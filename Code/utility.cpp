@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstdio>
+#include <sys/stat.h>
 
 
 /*
@@ -58,7 +59,7 @@ string convertInt(int number)
  */
 void emptyTemp(){
     string file;
-    for(int i=0; true; i++){
+    for(int i=1; true; i++){
         file="../temp/pg"+convertInt(i)+".png";
         if(remove(file.c_str())!=0){
             return;
@@ -88,6 +89,11 @@ string partStringFromBehind(const char *str,const char *sign, int count){
     }
     ret=string(ret);
     return ret;
+}
+
+bool pageConverted (const string& file) {
+  struct stat buffer;
+  return (stat (file.c_str(), &buffer) == 0);
 }
 
 }
