@@ -14,7 +14,7 @@ class MagicConverter
 public:
     MagicConverter(FileManager *pFman);
 
-    void pdf2png(int dense, vector<int> page_vec);
+    bool pdf2png(int dense, vector<int> page_vec);
 
 private:
     FileManager *fman;

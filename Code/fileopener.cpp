@@ -58,8 +58,8 @@ setWindowFlags( flags );
 connect( pushButton_browse, SIGNAL( clicked() ), this, SLOT( getPath() ) );
 connect( pushButton_convert, SIGNAL( clicked() ), this, SLOT( checkInput() ) );
 connect( pushButton_quit, SIGNAL( clicked() ), this, SLOT( quit() ) );
-connect( next_page, SIGNAL (clicked() ) ,this, SLOT (changeDisplayedPage()));
-connect( previous_page, SIGNAL( clicked() ), this, SLOT ( changeDisplayedPage() ) );
+connect( next_page, SIGNAL (clicked() ) ,this, SLOT (changeDisplayedPage_next()));
+connect( previous_page, SIGNAL( clicked() ), this, SLOT ( changeDisplayedPage_previous() ) );
 
 // Starttext
 string starttext="";
@@ -105,7 +105,7 @@ void FileOpener::getPath()
     utility::emptyTemp();
 
     // Bildanzeige in GUI
-    int v[5] = { 1,2,3,4,5 };
+    int v[5] = { 1 };
     vector<int> pages_vec(&v[0], &v[0]+5);
     target2Picture(c_path,pages_vec);
 
@@ -274,6 +274,17 @@ bool FileOpener::parsePages(){
     return true;
 }
 
-void FileOpener::changeDisplayedPage(){
-
+void FileOpener::changeDisplayedPage_next(){
+    if(strcmp(fman->getTarget().c_str(),"../Documents/Logo.png")==0) return;
+    int v[1] = { fman->getAktPage()+1 };
+    vector<int> pages_vec(&v[0], &v[0]+1);
+    target2Picture(fman->getTarget().c_str(),pages_vec);
 }
+
+void FileOpener::changeDisplayedPage_previous(){
+    if(strcmp(fman->getTarget().c_str(),"../Documents/Logo.png")==0) return;
+    int v[1] = { fman->getAktPage()-1 };
+    vector<int> pages_vec(&v[0], &v[0]+1);
+    target2Picture(fman->getTarget().c_str(),pages_vec);
+}
+

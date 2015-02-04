@@ -26,7 +26,7 @@ MagicConverter::MagicConverter(FileManager *pFman)
  *  page_vec            Vektor mit zu parsenden Seiten
  *
  */
-void MagicConverter::pdf2png(int dense, vector<int> page_vec){
+bool MagicConverter::pdf2png(int dense, vector<int> page_vec){
     string target = fman->getTarget();
     // PDF einlesen und in Zieldatei speichern
     InitializeMagick(*fman->getArgv());
@@ -42,7 +42,8 @@ void MagicConverter::pdf2png(int dense, vector<int> page_vec){
             img.write(page_s);
         // Letzte Seite gelesen
         }catch(Magick::ErrorDelegate error){
-            return;
+            return false;
         }
     }
+    return true;
 }
